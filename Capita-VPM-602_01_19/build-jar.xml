@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="capital-vpm-602_01_19" default="default" basedir="." >
+	<description>Build For CHS Plugin Development</description>
+	<echo>
+        /*****************************************************************
+        ** build.xml template version:3.0, created by yuanyuan.         **
+        ** copyright @ www.acconsys.com,2008                            **
+        **                                                              **
+        **              Be Used for CHS Plugin Development              **
+        **                                                              **
+        *****************************************************************/
+		
+		 ${ant.version}
+		 Project:${ant.project.name}
+	</echo>
+	<tstamp />
+	<property environment="env"/>
+	<property name="build.dir" value="build"/>
+	<property name="jarname" value="${ant.project.name}.jar"/>
+	<property name="jar.file" value="${build.dir}/${jarname}"/>
+	<property name="dest.dir" value="../../ant.dest/CHS/${ant.project.name}"/>
+	<property name="lib.dir" value="lib"/>
+	
+	<available file="${dest.dir}" type="dir" property="isExistDestDir" />
+	<available file="${build.dir}" type="dir" property="isExistBuildDir"/>
+	<available file="${lib.dir}" type="dir" property="isExistLib"/>
+	<available file="${jar.file}" property="isExistJarFile"/>
+	
+	<target name="createBuildDir" unless="isExistBuildDir">
+	  <echo>Create build directory: ${build.dir}</echo>
+	  <mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="createDestDir" unless="isExistDestDir">
+	  <echo>Create dest directory: ${dest.dir}</echo>
+	  <mkdir dir="${dest.dir}"/>
+	</target>
+	
+	<target name="deleteJarFile" if="isExistJarFile">
+	  <echo>Delete old compiled jar file: ${jar.file}</echo>
+	  <delete file="${jar.file}"></delete>
+	</target>
+	
+	<target name="jar" depends="createBuildDir,createDestDir,deleteJarFile" description="Compile CHS plugin jar file.">
+	  <zip destfile="${jar.file}">
+	    <fileset dir="bin" id="bin">
+	      <include name="**/*" />
+	    </fileset>
+	  </zip>
+	</target>
+	
+	<target name="default" depends="jar">
+	 <copy file="${jar.file}" tofile="${dest.dir}/${jarname}" overwrite="true"  ></copy>
+	  <copy file="${jar.file}" tofile="E:/MentorGraphics/Capital2014.1/plugins/Capita-VPM-602_01_19/${jarname}" overwrite="true"></copy>
+	  <copy file="E:/workspace_capital/Capita-VPM-602_01_19/conf/602.properties" tofile="E:/MentorGraphics/Capital2014.1/plugins/conf/602.properties" overwrite="true" ></copy>
+	</target>
+</project>
+
